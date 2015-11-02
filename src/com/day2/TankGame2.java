@@ -43,7 +43,7 @@ class MyPanel extends JPanel implements KeyListener{
 		super.paint(g); 
 //		将坦克的活动区域填充为默认黑色
 		g.fillRect(0, 0, 400, 300);
-		this.drawTank(hero.getX(), hero.getY(), g, 0, 0);
+		this.drawTank(hero.getX(), hero.getY(), g, hero.getDirection(),0);
 		
 	}
 	
@@ -85,12 +85,16 @@ class MyPanel extends JPanel implements KeyListener{
 		// TODO Auto-generated method stub
 		if(e.getKeyCode()==KeyEvent.VK_W){
 			this.hero.setDirection(0);
+			hero.moveUp();
 		}else if(e.getKeyCode()==KeyEvent.VK_D){
 			this.hero.setDirection(1);
+			hero.moveRight();
 		}else if(e.getKeyCode()==KeyEvent.VK_S){
 			this.hero.setDirection(2);
+			hero.moveDown();
 		}else if(e.getKeyCode()==KeyEvent.VK_A){
 			this.hero.setDirection(3);
+			hero.moveLeft();
 		}
 		this.repaint();
 		
@@ -109,7 +113,10 @@ class Tank{
 	private int x = 0;
 	private int y = 0;
 //	定义坦克的方向，0表示向上，1表示向右，2表示向下，3表示向左
+	private int speed = 1;
+	
 	private int direction;
+	
 	public int getDirection() {
 		return direction;
 	}
@@ -133,6 +140,19 @@ class Tank{
 		// TODO Auto-generated constructor stub
 		this.x = x;
 		this.y = y;
+	}
+	
+	public void moveUp(){
+		this.y-=y;
+	}
+	public void moveRight(){
+		this.x+=x;
+	}
+	public void moveDown(){
+		this.y+=y;
+	}
+	public void moveLeft(){
+		this.x-=x;
 	}
 	
 	
