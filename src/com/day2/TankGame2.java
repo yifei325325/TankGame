@@ -1,33 +1,37 @@
 /**
- * 坦克游戏V1.0
- * 1，画出坦克
+ * 坦克游戏V2.0
+ * 1,让坦克动起来
+ * 
  */
-package com.day1;
+package com.day2;
 import javax.swing.*;
 import javax.swing.text.html.HTMLEditorKit;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class TankGame extends JFrame{
+public class TankGame2 extends JFrame{
 
 	MyPanel mp = null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TankGame tg = new TankGame();
+		TankGame2 tg = new TankGame2();
 
 	}
 	
-	public TankGame() {
+	public TankGame2() {
 		// 坦克游戏的构造函数
 		mp = new MyPanel();
 		this.add(mp);
-		this.setSize(450,350);
+		this.addKeyListener(mp);
+		this.setSize(400,300);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 }
 
-class MyPanel extends JPanel{
+class MyPanel extends JPanel implements KeyListener{
 //	坦克是生活在panel内部的，所以坦克要定义在mypanel里。
 	Hero hero = null;
 	public MyPanel() {
@@ -71,6 +75,31 @@ class MyPanel extends JPanel{
 			break;
 		}
 	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode()==KeyEvent.VK_W){
+			this.hero.setDirection(0);
+		}else if(e.getKeyCode()==KeyEvent.VK_D){
+			this.hero.setDirection(1);
+		}else if(e.getKeyCode()==KeyEvent.VK_S){
+			this.hero.setDirection(2);
+		}else if(e.getKeyCode()==KeyEvent.VK_A){
+			this.hero.setDirection(3);
+		}
+		this.repaint();
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 
@@ -79,6 +108,14 @@ class Tank{
 //	下面的x和y表示坦克出现的（位置）横坐标和纵坐标
 	private int x = 0;
 	private int y = 0;
+//	定义坦克的方向，0表示向上，1表示向右，2表示向下，3表示向左
+	private int direction;
+	public int getDirection() {
+		return direction;
+	}
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
 	public int getX() {
 		return x;
 	}
@@ -97,6 +134,8 @@ class Tank{
 		this.x = x;
 		this.y = y;
 	}
+	
+	
 }
 //定义我的坦克类继承自坦克类
 class Hero extends Tank{
