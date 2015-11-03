@@ -41,15 +41,18 @@ class MyPanel extends JPanel implements KeyListener{
 //	重写paint方法
 	public void paint(Graphics g){
 		super.paint(g); 
+//		float lineWidth = 3.0f;
+//	    ((Graphics2D)g).setStroke(new BasicStroke(lineWidth));
 //		将坦克的活动区域填充为默认黑色
 		g.fillRect(0, 0, 400, 300);
-		this.drawTank(hero.getX(), hero.getY(), g, hero.getDirection(),0);
+		this.drawTank(hero.getX(), hero.getY(), g, hero.getDirection(),1);
 		
 	}
 	
 //	画出坦克的函数
 	public void drawTank(int x,int y,Graphics g,int direction,int type){
 //		判断坦克类型，是敌人的还是我方的坦克，改变坦克的颜色区分
+		float lineWidth = 3.0f;//设置线条为粗线
 		switch (type) {
 		case 0:
 			g.setColor(Color.YELLOW);
@@ -71,8 +74,49 @@ class MyPanel extends JPanel implements KeyListener{
 //			4.画出中间圆形
 			g.fillOval(x+5, y+7, 12, 12);
 //			5.画出炮筒
+		    ((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
 			g.drawLine(x+11, y-5, x+11, y+17);
 			break;
+		case 1:
+//			1.画出左边履带
+			g.fill3DRect(x, y, 5, 30, true);
+//			2.画出右边履带
+			g.fill3DRect(x+20, y, 5, 30, true);
+//			3.画出中间机身
+			g.fill3DRect(x+5, y+5, 15, 20, false);
+//			4.画出中间圆形
+			g.fillOval(x+5, y+7, 12, 12);
+//			5.画出炮筒
+			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+			g.drawLine(x+11, y-5, x+11, y+17);
+			break;
+		case 2:
+//			1.画出左边履带
+			g.fill3DRect(x, y, 5, 30, true);
+//			2.画出右边履带
+			g.fill3DRect(x+20, y, 5, 30, true);
+//			3.画出中间机身
+			g.fill3DRect(x+5, y+5, 15, 20, false);
+//			4.画出中间圆形
+			g.fillOval(x+5, y+7, 12, 12);
+//			5.画出炮筒
+			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+			g.drawLine(x+11, y-5, x+11, y+17);
+			break;
+		case 3:
+//			1.画出左边履带
+			g.fill3DRect(x, y, 5, 30, true);
+//			2.画出右边履带
+			g.fill3DRect(x+20, y, 5, 30, true);
+//			3.画出中间机身
+			g.fill3DRect(x+5, y+5, 15, 20, false);
+//			4.画出中间圆形
+			g.fillOval(x+5, y+7, 12, 12);
+//			5.画出炮筒
+			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+			g.drawLine(x+11, y-5, x+11, y+17);
+			break;
+			
 		}
 	}
 	@Override
@@ -87,13 +131,13 @@ class MyPanel extends JPanel implements KeyListener{
 			this.hero.setDirection(0);
 			hero.moveUp();
 		}else if(e.getKeyCode()==KeyEvent.VK_D){
-			this.hero.setDirection(0);
+			this.hero.setDirection(1);
 			hero.moveRight();
 		}else if(e.getKeyCode()==KeyEvent.VK_S){
-			this.hero.setDirection(0);
+			this.hero.setDirection(2);
 			hero.moveDown();
 		}else if(e.getKeyCode()==KeyEvent.VK_A){
-			this.hero.setDirection(0);
+			this.hero.setDirection(3);
 			hero.moveLeft();
 		}
 		this.repaint();
