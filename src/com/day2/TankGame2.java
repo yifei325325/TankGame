@@ -36,7 +36,7 @@ class MyPanel extends JPanel implements KeyListener{
 	Hero hero = null;
 	public MyPanel() {
 		// 在我的panel里构造一个坦克
-		hero = new Hero(10, 10);
+		hero = new Hero(100, 100);
 	}
 //	重写paint方法
 	public void paint(Graphics g){
@@ -87,13 +87,13 @@ class MyPanel extends JPanel implements KeyListener{
 			this.hero.setDirection(0);
 			hero.moveUp();
 		}else if(e.getKeyCode()==KeyEvent.VK_D){
-			this.hero.setDirection(1);
+			this.hero.setDirection(0);
 			hero.moveRight();
 		}else if(e.getKeyCode()==KeyEvent.VK_S){
-			this.hero.setDirection(2);
+			this.hero.setDirection(0);
 			hero.moveDown();
 		}else if(e.getKeyCode()==KeyEvent.VK_A){
-			this.hero.setDirection(3);
+			this.hero.setDirection(0);
 			hero.moveLeft();
 		}
 		this.repaint();
@@ -143,16 +143,16 @@ class Tank{
 	}
 	
 	public void moveUp(){
-		this.y-=y;
+		y=y-speed;
 	}
 	public void moveRight(){
-		this.x+=x;
+		x=x+speed;
 	}
 	public void moveDown(){
-		this.y+=y;
+		y=y+speed;
 	}
 	public void moveLeft(){
-		this.x-=x;
+		x=x-speed;
 	}
 	
 	
