@@ -1,4 +1,4 @@
-package com.day3.copy;
+package com.day4;
 
 //定义一个坦克类
 class Tank{
