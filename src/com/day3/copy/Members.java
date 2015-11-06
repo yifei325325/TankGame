@@ -7,7 +7,7 @@ class Tank{
 	private int y = 0;
 //	定义坦克的方向，0表示向上，1表示向右，2表示向下，3表示向左
 	private int direction;
-	private int speed = 4;
+	private int speed = 2;
 	private int color;
 	
 	
