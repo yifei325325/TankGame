@@ -1,5 +1,55 @@
 package com.day4;
 
+
+//定义子弹类
+class Bomb implements Runnable{
+	int x;
+	int y;
+	int direct;
+	int speed = 1;
+	boolean isLive=true;
+	public Bomb(int x,int y,int direct) {
+		// TODO Auto-generated constructor stub
+		this.x = x;
+		this.y = y;
+		this.direct = direct;
+	}
+	public void run(){
+		while(true){
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			switch (this.direct) {
+			case 0:
+				y-=speed;
+				break;
+			case 1:
+				x+=speed;
+				break;
+			case 2:
+				y+=speed;
+				break;
+			case 3:
+				x-=speed;
+				break;
+			}
+			
+			System.out.println("x="+x+",y="+y);
+			//子弹何时死亡？
+			if(x<0||y<0||x>400||y>300){
+				this.isLive = false;
+				break;
+			}
+		}
+		
+	}
+}
+
+
+
 //定义一个坦克类
 class Tank{
 //	下面的x和y表示坦克出现的（位置）横坐标和纵坐标
@@ -56,6 +106,8 @@ class Tank{
 	}
 }
 
+
+
 //定义敌人的坦克
 class EnemyTank extends Tank{
 	public EnemyTank(int x,int y) {
@@ -66,10 +118,32 @@ class EnemyTank extends Tank{
 
 //定义我的坦克类继承自坦克类
 class Hero extends Tank{
+	//子弹是从Hero里发出的，所以子弹应该是Hero的一个成员变量
+	Bomb bomb = null;
+	
 //	Hero的构造函数
 	public Hero(int x,int y) {
 		// TODO Auto-generated constructor stub
 		super(x, y);
+	}
+	
+	public void fire(){
+		switch (this.getDirection()) {
+		case 0:
+			bomb = new Bomb(this.getX()+10, this.getY()-10,0);
+			break;
+		case 1:
+			bomb = new Bomb(this.getX()+35, this.getY()+10,1);
+			break;
+		case 2:
+			bomb = new Bomb(this.getX()+10, this.getY()+35,2);
+			break;
+		case 3:
+			bomb = new Bomb(this.getX()-10, this.getY()+10,3);
+			break;
+		}
+		Thread t = new Thread(bomb);
+		t.start();
 	}
 	
 }

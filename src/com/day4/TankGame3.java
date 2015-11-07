@@ -1,6 +1,7 @@
 /**
- * 坦克游戏V2.0
+ * 坦克游戏V3.0
  * 1,让坦克动起来
+ * 2,让坦克发射子弹
  * 
  */
 package com.day4;
@@ -22,6 +23,8 @@ public class TankGame3 extends JFrame{
 	public TankGame3() {
 		// 坦克游戏的构造函数
 		mp = new MyPanel();
+		Thread t = new Thread(mp);
+		t.start();
 		this.add(mp);
 		this.addKeyListener(mp);
 		this.setSize(400,300);
@@ -30,7 +33,7 @@ public class TankGame3 extends JFrame{
 	}
 }
 
-class MyPanel extends JPanel implements KeyListener{
+class MyPanel extends JPanel implements KeyListener,Runnable{
 //	坦克是生活在panel内部的，所以坦克要定义在mypanel里。
 	Hero hero = null;
 //	定一个敌人的坦克集合类，因为要考虑线程安全，所以选用Vector
@@ -57,7 +60,14 @@ class MyPanel extends JPanel implements KeyListener{
 //		将坦克的活动区域填充为默认黑色
 		g.fillRect(0, 0, 400, 300);
 		this.drawTank(hero.getX(), hero.getY(), g, hero.getDirection(),1);
-//		画出敌人的坦克
+//画出子弹
+		if(hero.bomb!=null&&hero.bomb.isLive==true){
+//			float lineWidth = 2.0f;
+//			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+			g.draw3DRect(hero.bomb.x, hero.bomb.y, 2, 2, true);
+		}
+		
+		//		画出敌人的坦克
 		for(int i=0;i<ets.size();i++){
 			this.drawTank(ets.get(i).getX(), ets.get(i).getY(), g, ets.get(i).getDirection(), 0);
 		}
@@ -92,19 +102,6 @@ class MyPanel extends JPanel implements KeyListener{
 		    ((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
 			g.drawLine(x+11, y-5, x+11, y+17);
 			break;
-		case 3:
-//			1.画出左边履带
-			g.fill3DRect(x, y, 30, 5, true);
-//			2.画出右边履带
-			g.fill3DRect(x, y+20, 30, 5, true);
-//			3.画出中间机身
-			g.fill3DRect(x+5, y+5, 20, 15, false);
-//			4.画出中间圆形
-			g.fillOval(x+7, y+5, 12, 12);
-//			5.画出炮筒
-			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
-			g.drawLine(x+17, y+11,x-5, y+11);
-			break;
 		case 1:
 //			1.画出左边履带
 			g.fill3DRect(x, y, 30, 5, true);
@@ -131,7 +128,19 @@ class MyPanel extends JPanel implements KeyListener{
 			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
 			g.drawLine(x+11, y+17,x+11, y+32 );
 			break;
-			
+		case 3:
+//			1.画出左边履带
+			g.fill3DRect(x, y, 30, 5, true);
+//			2.画出右边履带
+			g.fill3DRect(x, y+20, 30, 5, true);
+//			3.画出中间机身
+			g.fill3DRect(x+5, y+5, 20, 15, false);
+//			4.画出中间圆形
+			g.fillOval(x+7, y+5, 12, 12);
+//			5.画出炮筒
+			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+			g.drawLine(x+17, y+11,x-5, y+11);
+			break;
 		}
 	}
 	@Override
@@ -155,6 +164,10 @@ class MyPanel extends JPanel implements KeyListener{
 			this.hero.setDirection(3);
 			hero.moveLeft();
 		}
+		//判断玩家是否按下J键 则开火
+		if(e.getKeyCode()==KeyEvent.VK_J){
+			hero.fire();
+		}
 		this.repaint();
 		
 	}
@@ -162,6 +175,18 @@ class MyPanel extends JPanel implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while(true){
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			this.repaint();
+		}
 	}
 	
 }

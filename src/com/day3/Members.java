@@ -1,5 +1,11 @@
 package com.day3;
 
+import java.awt.print.Printable;
+
+
+
+
+
 //定义一个坦克类
 class Tank{
 //	下面的x和y表示坦克出现的（位置）横坐标和纵坐标

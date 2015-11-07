@@ -1,8 +1,6 @@
 /**
- * 坦克游戏V3.0
+ * 坦克游戏V2.5
  * 1,让坦克动起来
- * 2,让坦克发射子弹
- * 
  */
 package com.day3;
 import javax.swing.*;
