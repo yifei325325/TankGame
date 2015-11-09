@@ -2,6 +2,7 @@
  * 坦克游戏V3.0
  * 1,让坦克动起来
  * 2,让坦克发射子弹
+ * 3,坦克子弹可以连发（最多发5颗）
  * 
  */
 package com.day4;
@@ -60,13 +61,19 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 //		将坦克的活动区域填充为默认黑色
 		g.fillRect(0, 0, 400, 300);
 		this.drawTank(hero.getX(), hero.getY(), g, hero.getDirection(),1);
-//画出子弹
-		if(hero.bomb!=null&&hero.bomb.isLive==true){
-//			float lineWidth = 2.0f;
-//			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
-			g.draw3DRect(hero.bomb.x, hero.bomb.y, 2, 2, true);
+
+		for(int i=0;i<hero.bombs.size();i++){
+			Bomb myBomb = hero.bombs.get(i);
+		//画出一颗子弹
+			if(myBomb!=null&&myBomb.isLive==true){
+	//			float lineWidth = 2.0f;
+	//			((Graphics2D) g).setStroke(new BasicStroke(lineWidth));//设置线条为粗线
+				g.draw3DRect(myBomb.x, myBomb.y, 2, 2, true);
+			}
+			if(myBomb.isLive == false){
+				hero.bombs.remove(myBomb);
+			}
 		}
-		
 		//		画出敌人的坦克
 		for(int i=0;i<ets.size();i++){
 			this.drawTank(ets.get(i).getX(), ets.get(i).getY(), g, ets.get(i).getDirection(), 0);
@@ -166,7 +173,10 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 		}
 		//判断玩家是否按下J键 则开火
 		if(e.getKeyCode()==KeyEvent.VK_J){
-			hero.fire();
+			if(this.hero.bombs.size()<=4){
+				
+				hero.fire();
+			}
 		}
 		this.repaint();
 		

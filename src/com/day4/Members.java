@@ -1,5 +1,7 @@
 package com.day4;
 
+import java.util.Vector;
+
 
 //定义子弹类
 class Bomb implements Runnable{
@@ -119,6 +121,7 @@ class EnemyTank extends Tank{
 //定义我的坦克类继承自坦克类
 class Hero extends Tank{
 	//子弹是从Hero里发出的，所以子弹应该是Hero的一个成员变量
+	Vector<Bomb> bombs = new Vector<Bomb>();
 	Bomb bomb = null;
 	
 //	Hero的构造函数
@@ -131,15 +134,19 @@ class Hero extends Tank{
 		switch (this.getDirection()) {
 		case 0:
 			bomb = new Bomb(this.getX()+10, this.getY()-10,0);
+			bombs.add(bomb);
 			break;
 		case 1:
 			bomb = new Bomb(this.getX()+35, this.getY()+10,1);
+			bombs.add(bomb);
 			break;
 		case 2:
 			bomb = new Bomb(this.getX()+10, this.getY()+35,2);
+			bombs.add(bomb);
 			break;
 		case 3:
 			bomb = new Bomb(this.getX()-10, this.getY()+10,3);
+			bombs.add(bomb);
 			break;
 		}
 		Thread t = new Thread(bomb);
