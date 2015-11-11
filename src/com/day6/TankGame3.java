@@ -1,11 +1,12 @@
 /**
- * 坦克游戏V4.0
+ * 坦克游戏V5.0
  * 1,让坦克动起来
  * 2,让坦克发射子弹
  * 3,坦克子弹可以连发（最多发5颗）
  * 4,被击中的坦克可以消失
+ * 5，被击中的坦克可以爆炸
  */
-package com.day5;
+package com.day6;
 import javax.swing.*;
 
 import java.awt.*;
@@ -40,7 +41,14 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 	Hero hero = null;
 //	定一个敌人的坦克集合类，因为要考虑线程安全，所以选用Vector
 	Vector<EnemyTank> ets = new Vector<EnemyTank>(); 
+	Vector<BaoZha> baozhas = new Vector<BaoZha>();
 	int enemySize = 3;
+//	定义爆炸图片
+	Image image1 = null;
+	Image image2 = null;
+	Image image3 = null;
+	Image image4 = null;
+	Image image5 = null;
 	
 	public MyPanel() {
 		// 在我的panel里构造一个坦克
@@ -53,6 +61,11 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 			ets.addElement(et);
 			
 		}
+		image1=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/1.gif"));
+		image2=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/2.gif"));
+		image3=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/3.gif"));
+		image4=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/4.gif"));
+		image5=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/5.gif"));
 	}
 //	重写paint方法
 	public void paint(Graphics g){
@@ -75,6 +88,29 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 				hero.bombs.remove(myBomb);
 			}
 		}
+//		画出爆炸
+		for(int i=0;i<baozhas.size();i++){
+			System.out.println("baozhas.size()="+baozhas.size());
+			BaoZha bz = baozhas.get(i);
+			if(bz.life>5){
+				g.drawImage(image1, bz.x, bz.y, 30,30,this);
+			}else if(bz.life>4){
+				g.drawImage(image2, bz.x, bz.y, 30,30,this);
+			}else if(bz.life>3){
+				g.drawImage(image3, bz.x, bz.y, 30,30,this);
+			}else if(bz.life>2){
+				g.drawImage(image4, bz.x, bz.y, 30,30,this);
+			}else {
+				g.drawImage(image5, bz.x, bz.y, 30,30,this);
+			}
+			bz.liftDown();
+			if(bz.life==0){
+				baozhas.remove(bz);
+			}
+			
+		}
+		
+		
 		//		画出敌人的坦克
 		for(int i=0;i<ets.size();i++){
 			EnemyTank et = ets.get(i);
@@ -168,6 +204,8 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 				//子弹死亡，敌人坦克死亡
 				bomb.isLive = false;
 				et.isLive = false;
+				BaoZha bz = new BaoZha(et.getX(), et.getY());
+				baozhas.add(bz);
 			}
 //		敌人坦克朝左右两边
 		case 1:
@@ -176,6 +214,8 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 				//子弹死亡，敌人坦克死亡
 				bomb.isLive = false;
 				et.isLive = false;
+				BaoZha bz = new BaoZha(et.getX(), et.getY());
+				baozhas.add(bz);
 			}
 		}
 	}
