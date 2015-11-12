@@ -47,8 +47,6 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 	Image image1 = null;
 	Image image2 = null;
 	Image image3 = null;
-	Image image4 = null;
-	Image image5 = null;
 	
 	public MyPanel() {
 		// 在我的panel里构造一个坦克
@@ -61,11 +59,9 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 			ets.addElement(et);
 			
 		}
-		image1=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/1.gif"));
-		image2=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/2.gif"));
-		image3=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/3.gif"));
-		image4=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/4.gif"));
-		image5=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/5.gif"));
+		image1=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_1.gif"));
+		image2=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_2.gif"));
+		image3=Toolkit.getDefaultToolkit().getImage(Panel.class.getResource("/bomb_3.gif"));
 		
 }
 //	重写paint方法
@@ -94,13 +90,8 @@ class MyPanel extends JPanel implements KeyListener,Runnable{
 			BaoZha bz = baozhas.get(i);
 			System.out.println("baozhas.size()= "+baozhas.size());
 			if(bz.life>5){
-				g.drawImage(image5, bz.x, bz.y, 30,30,this);
-				
-			}else if(bz.life>4){
-				g.drawImage(image4, bz.x, bz.y, 30,30,this);
-			}else if(bz.life>3){
 				g.drawImage(image3, bz.x, bz.y, 30,30,this);
-			}else if(bz.life>2){
+			}else if(bz.life>3){
 				g.drawImage(image2, bz.x, bz.y, 30,30,this);
 			}else {
 				g.drawImage(image1, bz.x, bz.y, 30,30,this);
